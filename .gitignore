@@ -1,0 +1,12 @@
+
+# Added by github-skill-publisher
+node_modules/
+.env
+__pycache__/
+dist/
+*.egg-info/
+venv/
+.venv/
+*.pyc
+.DS_Store
+build/
