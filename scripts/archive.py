@@ -4,6 +4,14 @@ import yaml
 import re
 from datetime import datetime
 
+def strip_existing_frontmatter(content):
+    if not content.startswith("---\n"):
+        return content
+    parts = content.split("---\n", 2)
+    if len(parts) < 3:
+        return content
+    return parts[2].lstrip("\n")
+
 def archive_article(title, type, summary, category, date, tags, content, output_dir, content_file=None, feature_image=None):
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -47,10 +55,13 @@ def archive_article(title, type, summary, category, date, tags, content, output_
     # Generate frontmatter string
     frontmatter = "---\n" + yaml.dump(metadata, allow_unicode=True, default_flow_style=False) + "---\n\n"
 
+    # Avoid nested frontmatter when archiving finalized markdown files.
+    clean_content = strip_existing_frontmatter(content)
+
     # Write to file
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(frontmatter)
-        f.write(content)
+        f.write(clean_content)
 
     print(f"Successfully archived to: {file_path}")
 
