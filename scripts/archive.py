@@ -12,7 +12,7 @@ def strip_existing_frontmatter(content):
         return content
     return parts[2].lstrip("\n")
 
-def archive_article(title, type, summary, category, date, tags, content, output_dir, content_file=None, feature_image=None):
+def archive_article(title, type, summary, category, date, tags, content, output_dir, content_file=None):
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
 
@@ -49,8 +49,6 @@ def archive_article(title, type, summary, category, date, tags, content, output_
         "date": date or datetime.now().strftime("%Y-%m-%d"),
         "tags": tags or []
     }
-    if feature_image:
-        metadata["featureImage"] = feature_image
 
     # Generate frontmatter string
     frontmatter = "---\n" + yaml.dump(metadata, allow_unicode=True, default_flow_style=False) + "---\n\n"
@@ -70,12 +68,11 @@ if __name__ == "__main__":
     parser.add_argument("--title", required=True)
     parser.add_argument("--type", required=True, choices=["WeChat", "Xiaohongshu"])
     parser.add_argument("--summary", default="")
-    parser.add_argument("--category", default="未分类")
+    parser.add_argument("--category", required=True)
     parser.add_argument("--date", help="YYYY-MM-DD")
-    parser.add_argument("--tags", nargs="*", help="List of tags")
+    parser.add_argument("--tags", nargs="+", required=True, help="List of tags")
     parser.add_argument("--content_file", help="Path to a file containing the markdown content")
     parser.add_argument("--content", help="Direct markdown content")
-    parser.add_argument("--feature_image", help="Feature image filename")
     parser.add_argument("--output_dir", default="/Users/shi/workspace/my-skills/Obsidian-Knowledge-Base")
 
     args = parser.parse_args()
@@ -91,5 +88,5 @@ if __name__ == "__main__":
 
     archive_article(
         args.title, args.type, args.summary, args.category, args.date, 
-        args.tags, content, args.output_dir, args.content_file, args.feature_image
+        args.tags, content, args.output_dir, args.content_file
     )

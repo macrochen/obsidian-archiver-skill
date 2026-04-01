@@ -28,6 +28,7 @@ If you are working in this repository, use the skill directly from:
   --title "My Article Title" \
   --type "Xiaohongshu" \
   --summary "A brief summary" \
+  --category "Category Name" \
   --tags tag1 tag2 \
   --content_file "input.md"
 ```

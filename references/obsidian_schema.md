@@ -8,7 +8,6 @@ All archived articles MUST include the following YAML frontmatter:
 ---
 title: "Article Title"
 summary: "Brief summary of the article"
-featureImage: "image_filename.png" # Optional
 type: "WeChat" | "Xiaohongshu"
 category: "Category Name"
 date: YYYY-MM-DD
@@ -30,3 +29,5 @@ Files should be named as: `Title.md`
 - Use dividers (***) between major sections.
 - Use Callouts for tips or important notes if using Obsidian features.
 - Preserve original formatting (tables, lists, bold text).
+- `category` and `tags` are required in the archive flow.
+- `featureImage` is not used in the current archive flow.
