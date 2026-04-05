@@ -13,6 +13,7 @@ This skill automates the process of archiving articles from platforms like WeCha
 1. **Extract/Prepare Content**: Use other tools or manual input to get the article content in Markdown.
 2. **Standardize Formatting**: Follow `obsidian-markdown` guidelines (callouts, wikilinks, bold/italics).
 3. **Run Archive Script**: Execute the `archive.py` script.
+4. **Sync to GitHub**: If requested, commit and push the archived note to the knowledge base repository.
 
 ### Deep Archive Workflow (Preferred)
 Use this when archiving content from the `content/` project directories:
@@ -25,6 +26,7 @@ Use this when archiving content from the `content/` project directories:
     - **Title**: The script will automatically try to extract the first `# Heading` from the file.
     - **Type**: Based on the parent directory (`wechat` -> `WeChat`, `xiaohongshu` -> `Xiaohongshu`).
 4. **Execute**: Run `archive.py` with the selected file.
+5. **Optional Sync**: Use `--sync-github` to commit and push the new note to GitHub after a successful archive.
 
 ## Formatting Guidelines (Obsidian Flavored)
 
@@ -37,7 +39,7 @@ Use this when archiving content from the `content/` project directories:
 
 ### Scripts
 - `scripts/archive.py`: Handles file creation and frontmatter generation.
-  - Parameters: `--title`, `--type`, `--summary`, `--category`, `--date`, `--tags`, `--content_file`, `--feature_image`.
+  - Parameters: `--title`, `--type`, `--summary`, `--category`, `--date`, `--tags`, `--content_file`, `--feature_image`, `--sync-github`.
 
 ### References
 - `references/obsidian_schema.md`: Detailed YAML schema and file naming conventions.

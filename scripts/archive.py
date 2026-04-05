@@ -2,6 +2,7 @@ import argparse
 import os
 import yaml
 import re
+import subprocess
 from datetime import datetime
 
 def strip_existing_frontmatter(content):
@@ -62,6 +63,42 @@ def archive_article(title, type, summary, category, date, tags, content, output_
         f.write(clean_content)
 
     print(f"Successfully archived to: {file_path}")
+    return file_path
+
+
+def sync_to_github(repo_dir, file_path):
+    """Commit and push the archived note to GitHub."""
+    rel_path = os.path.relpath(file_path, repo_dir)
+    subprocess.run(["git", "-C", repo_dir, "add", rel_path], check=True)
+
+    commit_result = subprocess.run(
+        ["git", "-C", repo_dir, "commit", "-m", f"Add archived note {os.path.basename(file_path)}"],
+        capture_output=True,
+        text=True,
+    )
+    if commit_result.returncode != 0:
+        combined = f"{commit_result.stdout}\n{commit_result.stderr}".lower()
+        if "nothing to commit" in combined:
+            print("Nothing to commit; repository already up to date.")
+        else:
+            raise RuntimeError(
+                f"Git commit failed: {(commit_result.stderr or commit_result.stdout).strip()}"
+            )
+    else:
+        if commit_result.stdout.strip():
+            print(commit_result.stdout.strip())
+
+    push_result = subprocess.run(
+        ["git", "-C", repo_dir, "push", "origin", "main"],
+        capture_output=True,
+        text=True,
+    )
+    if push_result.returncode != 0:
+        raise RuntimeError(
+            f"Git push failed: {(push_result.stderr or push_result.stdout).strip()}"
+        )
+    if push_result.stdout.strip():
+        print(push_result.stdout.strip())
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Archive an article to Obsidian.")
@@ -74,6 +111,7 @@ if __name__ == "__main__":
     parser.add_argument("--content_file", help="Path to a file containing the markdown content")
     parser.add_argument("--content", help="Direct markdown content")
     parser.add_argument("--output_dir", default="/Users/shi/workspace/my-skills/Obsidian-Knowledge-Base")
+    parser.add_argument("--sync-github", action="store_true", help="Commit and push the archived note to GitHub")
 
     args = parser.parse_args()
 
@@ -86,7 +124,10 @@ if __name__ == "__main__":
         print("Error: Either --content_file or --content must be provided.")
         exit(1)
 
-    archive_article(
+    file_path = archive_article(
         args.title, args.type, args.summary, args.category, args.date, 
         args.tags, content, args.output_dir, args.content_file
     )
+
+    if args.sync_github:
+        sync_to_github(args.output_dir, file_path)
