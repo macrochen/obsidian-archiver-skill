@@ -9,7 +9,7 @@ This skill is intended to run in the local Codex/Gemini skill workspace.
 If you are working in this repository, use the skill directly from:
 
 ```bash
-.gemini/skills/obsidian-archiver-skill
+~/.agents/skills/obsidian-archiver-skill
 ```
 
 ## Documentation
@@ -25,7 +25,7 @@ If you are working in this repository, use the skill directly from:
 ## Command
 
 ```bash
-./.venv/bin/python .gemini/skills/obsidian-archiver-skill/scripts/archive.py \
+./.venv/bin/python ~/.agents/skills/obsidian-archiver-skill/scripts/archive.py \
   --title "My Article Title" \
   --type "Xiaohongshu" \
   --summary "A brief summary" \

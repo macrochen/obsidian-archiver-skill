@@ -47,7 +47,7 @@ Use this when archiving content from the `content/` project directories:
 ## Example Usage
 
 ```bash
-./.venv/bin/python .gemini/skills/obsidian-archiver-skill/scripts/archive.py \
+./.venv/bin/python ~/.agents/skills/obsidian-archiver-skill/scripts/archive.py \
   --title "My Article Title" \
   --type "Xiaohongshu" \
   --summary "A brief summary" \
