@@ -39,7 +39,7 @@ Use this when archiving content from the `content/` project directories:
 
 ### Scripts
 - `scripts/archive.py`: Handles file creation and frontmatter generation.
-  - Parameters: `--title`, `--type`, `--summary`, `--category`, `--date`, `--tags`, `--content_file`, `--feature_image`, `--sync-github`.
+  - Parameters: `--title` (required), `--type` (required: WeChat|Xiaohongshu), `--category` (required), `--summary`, `--date`, `--tags`, `--content_file`, `--sync-github`.
 
 ### References
 - `references/obsidian_schema.md`: Detailed YAML schema and file naming conventions.
@@ -49,8 +49,13 @@ Use this when archiving content from the `content/` project directories:
 ```bash
 ./.venv/bin/python ~/.agents/skills/obsidian-archiver-skill/scripts/archive.py \
   --title "My Article Title" \
-  --type "Xiaohongshu" \
+  --type "WeChat" \
+  --category "人物" \
   --summary "A brief summary" \
   --tags tag1 tag2 \
   --content_file "input.md"
 ```
+
+**注意事项**:
+- `--category` 为必填参数（如 "人物"、"财经"、"科技" 等）
+- 脚本不支持 `--feature_image` 参数
