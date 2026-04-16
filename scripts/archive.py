@@ -110,7 +110,10 @@ if __name__ == "__main__":
     parser.add_argument("--tags", nargs="+", required=True, help="List of tags")
     parser.add_argument("--content_file", help="Path to a file containing the markdown content")
     parser.add_argument("--content", help="Direct markdown content")
-    parser.add_argument("--output_dir", default="/Users/shi/workspace/my-skills/Obsidian-Knowledge-Base")
+    parser.add_argument(
+        "--output_dir",
+        default=os.environ.get("OBSIDIAN_ARCHIVE_DIR", os.path.expanduser("~/Obsidian-Knowledge-Base")),
+    )
     parser.add_argument("--sync-github", action="store_true", help="Commit and push the archived note to GitHub")
 
     args = parser.parse_args()
